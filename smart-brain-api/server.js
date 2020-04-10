@@ -54,20 +54,22 @@ app.post('/signin', (req, res) => {
 	.where('email', '=', email)
 	.first()
 	.then(data => {
-		const isValid = bcrypt.compareSync(password, data.hash); 
+		if (data) {
+			const isValid = bcrypt.compareSync(password, data.hash); 
 
-		if (isValid) {
-			db.select('*')
-			.from('users')
-			.where('email', '=', email)
-			.first()
-			.then(user => res.json(user));
-
-		} else {
-			res.status(400).json('Unable to sign in');
+			if (isValid) {
+				return db.select('*')
+					.from('users')
+					.where('email', '=', email)
+					.first()
+					.then(user => res.json(user));
+			}
 		}
+		return res.status(400).json('Email or password is invalid');
 	})
-	.catch(() => res.status(400).json('Unable to sign in'));
+	.catch(() => {
+		res.status(400).json('Unable to sign in');
+	})
 })
 
 app.post('/register', async (req, res) => {
