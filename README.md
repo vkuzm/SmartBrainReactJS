@@ -27,9 +27,13 @@
 
 
 ### #2 Start back-end API
-npm start
+
+    npm start
 
 ### #3 Start front-end APP
-cd ../smart-brain-app && npm start
 
-### #4 Go to http://localhost:3000
+    cd ../smart-brain-app && npm start
+
+### #4 Go to 
+
+    http://localhost:3000
