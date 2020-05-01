@@ -1,48 +1,73 @@
 import React from "react";
 
 class Register extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
-      email: '',  
-      password: '',
-      name: ''
-    }
+      email: "",
+      password: "",
+      name: "",
+    };
   }
 
   onEmailChange = (event) => {
-    this.setState({email: event.target.value});
-  }
+    this.setState({ email: event.target.value });
+  };
 
   onPasswordChange = (event) => {
-    this.setState({password: event.target.value});
-  }
+    this.setState({ password: event.target.value });
+  };
 
   onNameChange = (event) => {
-    this.setState({name: event.target.value});
-  } 
+    this.setState({ name: event.target.value });
+  };
 
   onSubmitRegister = () => {
-    fetch('http://localhost:3001/register', {
-      method:'post',
-      headers: {'Content-Type': 'application/json'},
+    fetch("http://localhost:3001/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email: this.state.email,
         password: this.state.password,
-        name: this.state.name
-      })
+        name: this.state.name,
+      }),
     })
-    .then(res => res.json().then(data => ({status: res.status, body: data})))
-    .then(data => {
-      if (data.status === 201) {
-        this.props.loadUser(data.body);
-        this.props.onRouteChange('home');
-      } else {
-        alert('Email already exists!');
+      .then((res) =>
+        res.json().then((data) => ({ status: res.status, body: data }))
+      )
+      .then((data) => {
+        if (data.status === 201) {
+          this.signIn(this.state.email, this.state.password);
+        } else {
+          alert("Email already exists!");
+        }
+      });
+  };
+
+  signIn = (email, password) => {
+    fetch("http://localhost:3001/signin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    })
+    .then((res) =>
+      res.json().then((data) => ({ status: res.status, body: data }))
+    )
+    .then((data) => {
+      const body = data.body;
+      const status = data.status;
+
+      if (status === 200 && body.success === "true") {
+        this.props.saveAuthToken(body.token);
+        this.props.getUserAndLoad(body.userId);
       }
     })
-  }
+    .catch(console.log);
+  };
 
   render() {
     const { onRouteChange } = this.props;
@@ -93,7 +118,9 @@ class Register extends React.Component {
               />
             </div>
             <div className="lh-copy mt3">
-              <p onClick={() => onRouteChange("signin")} className="f6 link dim black db pointer">Sign In</p>
+              <p onClick={() => onRouteChange("signin")} className="f6 link dim black db pointer">
+                Sign In
+              </p>
             </div>
           </div>
         </main>

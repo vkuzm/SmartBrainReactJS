@@ -1,42 +1,47 @@
 import React from "react";
 
 class SignIn extends React.Component {
-  constructor() {
-    super();
-
+  constructor(props) {
+    super(props);
     this.state = {
-      signInEmail: '',  
-      signInPassword: ''
-    }
+      signInEmail: "",
+      signInPassword: "",
+    };
   }
 
   onEmailChange = (event) => {
-    this.setState({signInEmail: event.target.value});
-  }
+    this.setState({ signInEmail: event.target.value });
+  };
 
   onPasswordChange = (event) => {
-    this.setState({signInPassword: event.target.value});
-  }
+    this.setState({ signInPassword: event.target.value });
+  };
 
   onSubmitSignIn = () => {
-    fetch('http://localhost:3001/signin', {
-      method:'post',
-      headers: {'Content-Type': 'application/json'},
+    fetch("http://localhost:3001/signin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email: this.state.signInEmail,
-        password: this.state.signInPassword
+        password: this.state.signInPassword,
+      }),
+    })
+      .then((res) =>
+        res.json().then((data) => ({ status: res.status, body: data }))
+      )
+      .then((data) => {
+        const body = data.body;
+        const status = data.status;
+
+        if (status === 200 && body.success === "true") {
+          this.props.saveAuthToken(body.token);
+          this.props.getUserAndLoad(body.userId);
+        } else {
+          alert(body);
+        }
       })
-    })
-    .then(res => res.json().then(data => ({status: res.status, body: data})))
-    .then(data => {
-      if (data.status === 200) {
-        this.props.loadUser(data.body);
-        this.props.onRouteChange('home'); 
-      } else {
-        alert(data.body);
-      }
-    })
-  }
+      .catch(console.log);
+  };
 
   render() {
     const { onRouteChange } = this.props;
@@ -77,7 +82,10 @@ class SignIn extends React.Component {
               />
             </div>
             <div className="lh-copy mt3">
-              <p onClick={() => onRouteChange("register")} className="f6 link dim black db pointer">Register</p>
+              <p onClick={() => onRouteChange("register")}
+                 className="f6 link dim black db pointer">
+                Register
+              </p>
             </div>
           </div>
         </main>
