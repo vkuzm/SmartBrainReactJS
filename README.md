@@ -9,5 +9,5 @@ Go to **smart-brain-api** and run:
 Go to **smart-brain-app** and run:
 `npm start`
 
-### #4 Go to 
+### #4 Go to URL
 http://localhost:3000
