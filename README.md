@@ -1,13 +1,11 @@
-### #1 Start back-end API in Docker
+### #1 Run docker-compose
+ docker-compose up -d
 
-###
-    cd smart-brain-api && docker-compose up -d
+### #2 Run back-end app
+ cd /smart-brain-api && npm start
 	
+### #3 Run front-end app
+ cd /smart-brain-app && npm start
 
-### #2 Start front-end APP
-
-    cd ../smart-brain-app && npm start
-
-### #3 Go to 
-
-    http://localhost:3000
+### #4 Go to 
+ http://localhost:3000
