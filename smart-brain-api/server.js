@@ -12,7 +12,7 @@ const image = require('./controllers/image');
 
 const db = knex({
 	client: 'pg',
-	connection: process.env.POSTGRES_URI
+	connection: 'postgres://admin:password@localhost:5432/smart-brain', //process.env.POSTGRES_URI
 });
 
 const corsOptions = {

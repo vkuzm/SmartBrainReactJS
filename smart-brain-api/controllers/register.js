@@ -10,7 +10,7 @@ const handleRegister = (db, bCrypt) => (req, res) => {
       })
       .into("login")
       .returning("email")
-      .then((loginEmail) => {
+      .then(() => {
         return trx("users")
           .returning("*")
           .insert({
@@ -24,7 +24,8 @@ const handleRegister = (db, bCrypt) => (req, res) => {
       })
       .then(trx.commit)
       .catch(trx.rollback);
-  }).catch(() => {
+  }).catch((error) => {
+    console.error(error);
     res.status(400).json("Unable to register new user");
   });
 };
