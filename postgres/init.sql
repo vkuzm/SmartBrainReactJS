@@ -11,9 +11,12 @@ CREATE TABLE users (
     name VARCHAR(100),
     email text UNIQUE NOT NULL,
     age VARCHAR(3),
-    pet VARCHAR(100),
-    entries BIGINT DEFAULT 0,
     joined TIMESTAMP NOT NULL
+);
+
+CREATE TABLE entries (
+    user_id BIGINT,
+    counter BIGINT DEFAULT 0
 );
 
 COMMIT;

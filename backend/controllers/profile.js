@@ -7,7 +7,14 @@ const handleProfileGet = (db) => (req, res) => {
     .first()
     .then((user) => {
       if (user) {
-        res.json(user);
+        db("entries")
+          .select("counter")
+          .where("user_id", userId)
+          .first()
+          .then((counter) => {
+            console.log(counter)
+            res.json({...user, entries: counter});
+          });
       } else {
         res.status(400).json("User not found");
       }
@@ -26,7 +33,6 @@ const handleProfileUpdate = (db, bCrypt) => (req, res) => {
     .update({
       name: name,
       age: age,
-      pet: pet,
     })
     .then((userData) => {
       if (userData > 0) {

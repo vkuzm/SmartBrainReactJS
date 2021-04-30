@@ -1,17 +1,17 @@
 {
-  "name": "smart-brain-api",
+  "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon --legacy-watch server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.19.0",
-    "clarifai": "^2.5.0",
+    "clarifai": "^2.9.1",
     "cors": "^2.8.4",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",

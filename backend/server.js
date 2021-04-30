@@ -12,7 +12,7 @@ const image = require('./controllers/image');
 
 const db = knex({
 	client: 'pg',
-	connection: 'postgres://admin:password@localhost:5432/smart-brain', //process.env.POSTGRES_URI
+	connection: process.env.POSTGRES_URI,
 });
 
 const corsOptions = {
@@ -31,6 +31,6 @@ app.get('/profile/:id', auth.requireAuth, profile.handleProfileGet(db));
 app.put('/image', auth.requireAuth, image.handleImage(db));
 app.put('/imageurl', auth.requireAuth, image.handleApiCall());
 
-app.listen(3001, () => {
+app.listen(process.env.SERVER_PORT, () => {
 	console.log("Server is running!");
 });

@@ -1,13 +1,35 @@
 version: '3.6'
 services:
 
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #   restart: on-failure
+  #   ports:
+  #     - 8080:80
+
+  backend:
+    build:
+      context: ./backend
+    restart: on-failure
+    volumes:
+      - /app/node_modules
+      - ./backend:/app
+    environment:
+       SERVER_PORT: 3001
+       REDIS_URI: 'redis://redis:6379'
+       POSTGRES_URI: 'postgres://admin:password@postgres:5432/db'
+       CLARIFAI_API_KEY: 'd012da56ea7e409b9fbdbf0c775d5b0d'
+    ports:
+      - 3001:3001
+
   postgres:
     container_name: postgres
     build: ./postgres
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: smart-brain
+      POSTGRES_DB: db
       POSTGRES_HOST: postgres
     ports:
       - "5432:5432"

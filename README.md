@@ -1,13 +1,9 @@
 ### #1 Run docker-compose
-`docker-compose up -d`
+`docker-compose up`
 
-### #2 Run back-end app
-Go to **smart-brain-api** and run:
-`npm start`
-	
-### #3 Run front-end app
-Go to **smart-brain-app** and run:
+### #2 Run front-end app
+Go to **frontend** and run:
 `npm start`
 
-### #4 Go to URL
+### #3 Go to URL
 http://localhost:3000

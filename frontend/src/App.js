@@ -88,15 +88,14 @@ class App extends React.Component {
       .catch(() => console.log("Unable to get user"));
   };
 
-  loadUser = (user) => {
+  loadUser = (user, entries) => {
     this.setState({
       user: {
         id: user.id,
         email: user.email,
         name: user.name,
         age: user.age,
-        pet: user.pet,
-        entries: user.entries,
+        entries: user,
         joined: user.joined,
       },
     });

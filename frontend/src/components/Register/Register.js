@@ -54,12 +54,14 @@ class Register extends React.Component {
         password: password,
       }),
     })
-    .then((res) =>
-      res.json().then((data) => ({ status: res.status, body: data }))
-    )
+    .then((res) => {
+      return res.json().then((data) => ({ status: res.status, body: data }))
+    })
     .then((data) => {
       const body = data.body;
       const status = data.status;
+
+      console.log(data);
 
       if (status === 200 && body.success === "true") {
         this.props.saveAuthToken(body.token);
